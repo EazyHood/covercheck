@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {crc32,inspectInput,parsePNG,parseJPEG,normalizeRect,checkRects,LIMITS} from '../dist/core.js';
+const fixture=name=>new Uint8Array(readFileSync(new URL('../fixtures/'+name,import.meta.url)));
+test('known CRC vector',()=>assert.equal(crc32(new TextEncoder().encode('123456789')),0xcbf43926));
+test('PNG signature, dimensions, CRC and metadata identified',()=>{const p=inspectInput(fixture('synthetic-alpha-metadata.png'));assert.equal(p.width,640);assert.equal(p.height,400);assert.ok(p.metadata.includes('tEXt'));assert.ok(p.metadata.includes('iTXt'));});
+test('animated, trailing, truncated PNG and SVG rejected',()=>{for(const name of ['reject-animation.png','reject-trailing.png','reject-truncated.png','reject.svg'])assert.throws(()=>inspectInput(fixture(name)));});
+test('bad PNG CRC fails closed',()=>{const b=fixture('synthetic-alpha-metadata.png');b[40]^=1;assert.throws(()=>parsePNG(b),/checksum/);});
+test('all eight EXIF-orientation JPEG containers accepted without using extension',()=>{for(let n=1;n<=8;n++){const p=inspectInput(fixture(`orientation-${n}.jpg`));assert.equal(p.format,'JPEG');assert.equal(p.width,640);assert.equal(p.height,400);}});
+test('JPEG requires final EOI with no trailing payload',()=>{const a=fixture('orientation-1.jpg');assert.throws(()=>parseJPEG(a.subarray(0,a.length-1)));const b=new Uint8Array(a.length+1);b.set(a);assert.throws(()=>parseJPEG(b),/trailing/);});
+test('outward rounding, reverse drag and edge clamping',()=>{assert.deepEqual(normalizeRect(30.2,40.8,10.4,20.2,100,100),{x:10,y:20,width:21,height:21});assert.deepEqual(normalizeRect(-5,-10,110,115,100,100),{x:0,y:0,width:100,height:100});assert.throws(()=>normalizeRect(120,120,140,140,100,100));});
+test('invalid or empty rectangles cannot reach export',()=>{assert.throws(()=>checkRects([],100,100));assert.throws(()=>checkRects([{x:0,y:0,width:101,height:1}],100,100));assert.throws(()=>checkRects([{x:.1,y:0,width:1,height:1}],100,100));assert.throws(()=>checkRects(Array.from({length:51},()=>({x:0,y:0,width:1,height:1})),100,100));checkRects([{x:99,y:99,width:1,height:1}],100,100);});
+test('byte limit checked before decoding',()=>{assert.throws(()=>inspectInput(new Uint8Array(LIMITS.bytes+1)),/12 MiB/);});

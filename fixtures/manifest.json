@@ -1,0 +1,32 @@
+{
+  "synthetic": true,
+  "license": "MIT",
+  "generator": "make_fixtures.py",
+  "covered_test_rectangle": {
+    "x": 20,
+    "y": 70,
+    "width": 360,
+    "height": 90
+  },
+  "input_png": {
+    "width": 640,
+    "height": 400,
+    "metadata": "tEXt and iTXt sentinel values",
+    "alpha": "includes transparent RGB and partial alpha"
+  },
+  "files": {
+    "orientation-1.jpg": "3fb74fea7c53e429db3d1063a0ff0184da0768ea4b394cf43492ab074436ed92",
+    "orientation-2.jpg": "1b3a44e60af9a1b4db658a7e44bffaeff635b7c2fb58af78c7e2c7ce7715fe58",
+    "orientation-3.jpg": "467c860bd8fc32bd0fab2c3632d729df760ac73ef08dbc1fa943b50e6f4dc0c1",
+    "orientation-4.jpg": "15a9fdacf73cf8d28272a25508375162099b5ff5a7f2b5fd6d23ee543c0baa44",
+    "orientation-5.jpg": "c9dfb4afe6343f795a3c34142134538ed4d77b9fd35c81f10030bf49d05e604b",
+    "orientation-6.jpg": "6a1a799762f23a74c504c541f46a4707e35c94858f2cd060cbb35387d3c75f0d",
+    "orientation-7.jpg": "59652d7b2ad43125d7a2e39a78a6f6baccbc5765288facb615965954c93d64ad",
+    "orientation-8.jpg": "e8997a94a74d60b0211a2490bd379778e730f96937a0895a5ec0149527c7929a",
+    "reject-animation.png": "b85a416c557712e819e8c7147ec4cdad4b3e74b2fec977c6ffe69506a9a3c5d7",
+    "reject-trailing.png": "2cdc022f0fec723b59c1416941825ca79fdfe17d69258ecf66d9dd7ef3cdc8dc",
+    "reject-truncated.png": "ade93369569e664e54254a4af2993cbcb3ed45f9e7a71eae7f7885bb346ce161",
+    "reject.svg": "d5e8e64871f91898b1528a67cde8f6ec2ee1ba7ed58209a472b103e759cd3493",
+    "synthetic-alpha-metadata.png": "10cbf99ab210f98dc733870a80c8e94462f6e5ca87c4c5be4c8853dff29f0ec6"
+  }
+}
